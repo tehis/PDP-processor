@@ -1,3 +1,4 @@
+`timescale 1ns/1ns
 module PC(input clk, rst, load_pc, incr_pc, input[11:0] input_address, output[11:0] output_address);
     always @(posedge clk, posedge rst) begin
         if (rst)
