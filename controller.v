@@ -1,7 +1,7 @@
 `timescale 1ns/1ns
 
 module CU (input clk,cnt, input [2:0] op,output reg mem_read,ldir,EAsrc,IdEA,memread,ALUsrcA,fnc,Idpc,writesrc
-		,mem_write,Idacc,Idcy,g23,clraccond,idpccond,output reg [2:0] mem_src,ALUsrcB,pcsrc=2'b00);
+		,mem_write,ldacc,Idcy,g23,clraccond,idpccond,output reg [2:0] mem_src,ALUsrcB,pcsrc=2'b00);
 	reg [3:0] ps,ns=0;
 	always@(ps, op) begin
 		ns = 0;
@@ -66,7 +66,7 @@ module CU (input clk,cnt, input [2:0] op,output reg mem_read,ldir,EAsrc,IdEA,mem
 		Idpc=0;
 		writesrc=0;
 		mem_write=0;
-		Idacc=0;
+		ldacc=0;
 		Idcy=0;
 		g23=0;
 		clraccond=0;
@@ -84,9 +84,9 @@ module CU (input clk,cnt, input [2:0] op,output reg mem_read,ldir,EAsrc,IdEA,mem
 
 			4 : begin pcsrc=2'b00; Idpc=1; end  //ADA
 
-			5 : begin ALUsrcA=0; ALUsrcB=2'b00; Idacc=1; Idcy=1; fnc=1; end   //ANA	
+			5 : begin ALUsrcA=0; ALUsrcB=2'b00; ldacc=1; Idcy=1; fnc=1; end   //ANA	
 
-			6 : begin ALUsrcA=0; ALUsrcB=2'b00; Idacc=1; fnc=0; end 			//MVR
+			6 : begin ALUsrcA=0; ALUsrcB=2'b00; ldacc=1; fnc=0; end 			//MVR
 
 			7 : begin ALUsrcA=1; ALUsrcB=2'b10; pcsrc=2'b01; fnc=1; g23=1; end  //ADR
 
