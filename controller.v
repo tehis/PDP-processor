@@ -1,7 +1,7 @@
 `timescale 1ns/1ns
 
-module CU (input clk,cnt, input [2:0] op,output reg mem_read,ldir,EAsrc,IdEA,memread,ALUsrcA,fnc,Idpc,writesrc
-		,mem_write,ldacc,Idcy,g23,clraccond,idpccond,output reg [2:0] mem_src,ALUsrcB,pcsrc=2'b00);
+module CU (input clk,cnt, input [2:0] op,output reg mem_read,ldir,EAsrc,ldEA,memread,ALUsrcA,fnc,ldpc,writesrc
+		,mem_write,ldacc,ldcy,g23,clraccond,idpccond,output reg [2:0] mem_src,ALUsrcB,pcsrc=2'b00);
 	reg [3:0] ps,ns=0;
 	always@(ps, op) begin
 		ns = 0;
@@ -59,15 +59,15 @@ module CU (input clk,cnt, input [2:0] op,output reg mem_read,ldir,EAsrc,IdEA,mem
 		mem_read=0;
 		ldir = 0;
 		EAsrc=0;
-		IdEA=0;
+		ldEA=0;
 		memread=0;
 		ALUsrcA = 0;
 		fnc=0;
-		Idpc=0;
+		ldpc=0;
 		writesrc=0;
 		mem_write=0;
 		ldacc=0;
-		Idcy=0;
+		ldcy=0;
 		g23=0;
 		clraccond=0;
 		idpccond=0;
@@ -75,16 +75,16 @@ module CU (input clk,cnt, input [2:0] op,output reg mem_read,ldir,EAsrc,IdEA,mem
 		case (ps)
 			0 : begin mem_src = 2'b00; mem_read=1; ldir = 1; end 		//fetch
 	
-			1 : begin mem_src=2'b10; EAsrc=1; IdEA=1; memread=1; ALUsrcA=1; ALUsrcB=2'b10; pcsrc=2'b01;
-				Idpc=1; fnc=1; end 								//dicode
+			1 : begin mem_src=2'b10; EAsrc=1; ldEA=1; memread=1; ALUsrcA=1; ALUsrcB=2'b10; pcsrc=2'b01;
+				ldpc=1; fnc=1; end 								//dicode
 
-			2 : begin mem_src=2'b11; EAsrc=1; IdEA=1;memread=1; end  //LDA
+			2 : begin mem_src=2'b11; EAsrc=1; ldEA=1;memread=1; end  //LDA
 			
-			3 : begin pcsrc=2'b00; Idpc=1; mem_src=2'b01; writesrc=0; mem_write=1; end   //STA
+			3 : begin pcsrc=2'b00; ldpc=1; mem_src=2'b01; writesrc=0; mem_write=1; end   //STA
 
-			4 : begin pcsrc=2'b00; Idpc=1; end  //ADA
+			4 : begin pcsrc=2'b00; ldpc=1; end  //ADA
 
-			5 : begin ALUsrcA=0; ALUsrcB=2'b00; ldacc=1; Idcy=1; fnc=1; end   //ANA	
+			5 : begin ALUsrcA=0; ALUsrcB=2'b00; ldacc=1; ldcy=1; fnc=1; end   //ANA	
 
 			6 : begin ALUsrcA=0; ALUsrcB=2'b00; ldacc=1; fnc=0; end 			//MVR
 
